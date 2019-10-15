@@ -1,14 +1,15 @@
-import express from 'express';
+export const get = (req, res) => {
+    try {
+        res.status(200).json({ data: [] });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 
-import { get, post } from './handlers';
-import { getByHash } from './hash';
-
-export const router = express.Router();
-
-router.get('/', get);
-router.post('/', post);
-
-router.get('/:userHash', getByHash);
-// router.put('/:userHash', updateByHash);
-
-export { router as users };
+export const post = (req, res) => {
+    try {
+        res.status(201).json({ data: {} });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
