@@ -24,7 +24,7 @@ export const getVideoByHash = (req, res) => {
 
 export const deleteVideoByHash = (req, res) => {
     try {
-        res.status(204);
+        res.sendStatus(204);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -40,7 +40,7 @@ export const getKeynoteByHash = (req, res) => {
 
 export const deleteKeynoteByHash = (req, res) => {
     try {
-        return res.sendStatus(200);
+        res.sendStatus(200);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
