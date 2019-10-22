@@ -194,7 +194,7 @@ rules:
         - multiline: true
     array-bracket-spacing:
         - 2
-        - always
+        - never
         - arraysInArrays: false
           objectsInArrays: false
     block-spacing: 2
@@ -249,11 +249,6 @@ rules:
     jsx-quotes:
         - 2
         - prefer-single
-    key-spacing:
-        - 2
-        - beforeColon: false
-          afterColon: true
-          align: value
     keyword-spacing: 2
     linebreak-style:
         - 2
