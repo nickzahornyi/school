@@ -2,6 +2,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
+import { logger } from './utils';
 //Routers
 import * as routers from './routers';
 import {
@@ -14,6 +15,10 @@ import { NotFoundError } from './utils/errors';
 const app = express();
 
 app.use(bodyParser.json({ limit: '10kb' }));
+
+if (process.env.NODE_ENV === 'development') {
+    app.use(logger);
+}
 
 app.use('/', routers.auth);
 app.use('/users', routers.users);
