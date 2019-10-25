@@ -2,3 +2,4 @@ export { getPort } from './env';
 export { limiter } from './limiter';
 export { validator } from './validator';
 export { logger } from './logger';
+export { authorization } from './authorization';
