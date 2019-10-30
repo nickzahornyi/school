@@ -2,7 +2,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import { logger } from './utils';
+import { debugLogger } from './utils';
 //Routers
 import * as routers from './routers';
 import {
@@ -17,7 +17,7 @@ const app = express();
 app.use(bodyParser.json({ limit: '10kb' }));
 
 if (process.env.NODE_ENV === 'development') {
-    app.use(logger);
+    app.use(debugLogger);
 }
 
 app.use('/', routers.auth);
@@ -31,13 +31,17 @@ app.use((req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 app.use((error, req, res, next) => {
-    if (error.name === 'NotFoundError') {
-        notFoundLogger(req.method, req.url);
-    } else if (error.name === 'ValidationError') {
-        validationLogger(error, req);
-    } else {
-        errorLogger(error);
+    switch (error.name) {
+        case 'NotFoundError':
+            notFoundLogger(req.method, req.url);
+            break;
+        case 'ValidationError':
+            validationLogger(req.method, req.url);
+            break;
+        default:
+            errorLogger(error);
     }
+
     res.status(500).json({ message: error.message });
 });
 
