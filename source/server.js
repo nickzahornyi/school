@@ -2,16 +2,14 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
+import passport from 'passport';
+import { Strategy, ExtractJwt } from 'passport-jwt';
 
 import { debugLogger } from './utils';
 import { getPassword } from './utils/env';
 //Routers
 import * as routers from './routers';
-import {
-    errorLogger,
-    notFoundLogger,
-    validationLogger,
-} from './utils/errorLoggers';
+import { errorLogger, notFoundLogger, validationLogger } from './utils/errorLoggers';
 import { NotFoundError } from './utils/errors';
 
 const app = express();
@@ -30,8 +28,18 @@ const sessionOptions = {
     },
 };
 
+const passportJwtOptions = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: 'secret',
+};
+
 app.use(bodyParser.json({ limit: '10kb' }));
 app.use(session(sessionOptions));
+passport.use(
+    new Strategy(passportJwtOptions, function(jwt_payload, done) {
+        return done(null, false);
+    })
+);
 
 if (process.env.NODE_ENV === 'development') {
     app.use(debugLogger);
@@ -43,11 +51,7 @@ app.use('/classes', routers.classes);
 app.use('/lessons', routers.lessons);
 
 app.use((req, res, next) => {
-    next(
-        new NotFoundError(
-            `Not Found - method: ${req.method}, endpoint: ${req.url}`
-        )
-    );
+    next(new NotFoundError(`Not Found - method: ${req.method}, endpoint: ${req.url}`));
 });
 
 // eslint-disable-next-line no-unused-vars
