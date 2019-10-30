@@ -203,13 +203,6 @@ rules:
         - 1tbs
         - allowSingleLine: true
     camelcase: 0
-    comma-dangle:
-        - 2
-        - arrays: always-multiline
-          objects: always-multiline
-          functions: always-multiline
-          imports: always-multiline
-          exports: always-multiline
     comma-spacing:
         - 2
         - before: false

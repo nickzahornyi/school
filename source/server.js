@@ -1,8 +1,10 @@
 // Core
 import express from 'express';
 import bodyParser from 'body-parser';
+import session from 'express-session';
 
 import { debugLogger } from './utils';
+import { getPassword } from './utils/env';
 //Routers
 import * as routers from './routers';
 import {
@@ -14,7 +16,22 @@ import { NotFoundError } from './utils/errors';
 
 const app = express();
 
+const PASSWORD = getPassword();
+
+const sessionOptions = {
+    key: 'user',
+    secret: PASSWORD,
+    resave: false,
+    rolling: true,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        maxAge: 15 * 60 * 1000,
+    },
+};
+
 app.use(bodyParser.json({ limit: '10kb' }));
+app.use(session(sessionOptions));
 
 if (process.env.NODE_ENV === 'development') {
     app.use(debugLogger);
@@ -26,7 +43,11 @@ app.use('/classes', routers.classes);
 app.use('/lessons', routers.lessons);
 
 app.use((req, res, next) => {
-    next(new NotFoundError(`Not Found - method: ${req.method}, endpoint: ${req.url}`));
+    next(
+        new NotFoundError(
+            `Not Found - method: ${req.method}, endpoint: ${req.url}`
+        )
+    );
 });
 
 // eslint-disable-next-line no-unused-vars
