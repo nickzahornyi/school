@@ -1,11 +1,17 @@
-export const login = (req, res) => {
+import jwt from 'jsonwebtoken';
+
+import { getPassword } from '../../utils/env';
+
+const password = getPassword();
+
+export const login = async (req, res) => {
     try {
         const authorization = req.get('authorization');
-        const { email } = req.body;
-
-        req.session.email = email;
 
         if (authorization) {
+            const token = await jwt.sign(req.body, password);
+
+            res.setHeader('X-Token', token);
             res.sendStatus(204);
         } else {
             res.status(400).json({ message: 'incorrect payload' });

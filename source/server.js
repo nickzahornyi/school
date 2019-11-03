@@ -30,14 +30,14 @@ const sessionOptions = {
 
 const passportJwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'secret',
+    secretOrKey: PASSWORD,
 };
 
 app.use(bodyParser.json({ limit: '10kb' }));
 app.use(session(sessionOptions));
 passport.use(
     new Strategy(passportJwtOptions, function(jwt_payload, done) {
-        return done(null, false);
+        return done(null, true);
     })
 );
 
