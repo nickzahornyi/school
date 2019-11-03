@@ -1,8 +1,9 @@
 // Core
 import express from 'express';
 import bodyParser from 'body-parser';
+import passport from 'passport';
 
-import { logger } from './utils';
+import { logger, githubStrategy } from './utils';
 //Routers
 import * as routers from './routers';
 import {
@@ -13,6 +14,16 @@ import {
 import { NotFoundError } from './utils/errors';
 
 const app = express();
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
+passport.use(githubStrategy);
+app.use(passport.initialize());
 
 app.use(bodyParser.json({ limit: '10kb' }));
 

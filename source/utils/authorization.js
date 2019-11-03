@@ -1,7 +1,6 @@
 export const authorization = (req, res, next) => {
-    if (req.header('Authorization') === process.env.PASSWORD) {
+    if (req.isAuthenticated()) {
         return next();
     }
-
-    res.status(401).json({ message: 'Wrong password' });
+    res.redirect('/');
 };
