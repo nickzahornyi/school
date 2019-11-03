@@ -40,6 +40,7 @@ passport.use(
         return done(null, true);
     })
 );
+app.use(passport.initialize());
 
 if (process.env.NODE_ENV === 'development') {
     app.use(debugLogger);
