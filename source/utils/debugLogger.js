@@ -11,7 +11,7 @@ export const log = winston.createLogger({
     exitOnError: false,
 });
 
-export const logger = (req, res, next) => {
+export const debugLogger = (req, res, next) => {
     log.debug(
         `method: ${req.method}, date: ${new Date()}, payload: ${JSON.stringify(req.body)}`,
     );
