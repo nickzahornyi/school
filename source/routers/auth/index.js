@@ -17,7 +17,7 @@ export const login = async (req, res) => {
             res.status(400).json({ message: 'incorrect payload' });
         }
     } catch (error) {
-        res.status(400).json({ message: 'some server error' });
+        res.status(500).json({ message: 'some server error' });
     }
 };
 
