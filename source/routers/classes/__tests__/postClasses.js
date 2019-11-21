@@ -37,7 +37,7 @@ describe('classes POST:', () => {
             .send({});
         const { data } = response.body;
 
-        expect(typeof data).toBe('object');
+        expect(data).toEqual({});
         done();
     });
 });

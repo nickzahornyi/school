@@ -31,7 +31,7 @@ describe('get class by classHash:', () => {
         const response = await server.get('/classes/1').set('Authorization', token);
         const { data } = response.body;
 
-        expect(typeof data).toBe('object');
+        expect(data).toEqual({});
         done();
     });
 });

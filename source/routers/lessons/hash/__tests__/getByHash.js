@@ -31,7 +31,7 @@ describe('get lesson by lessonHash:', () => {
         const response = await server.get('/lessons/1').set('Authorization', token);
         const { data } = response.body;
 
-        expect(typeof data).toBe('object');
+        expect(data).toEqual({});
         done();
     });
 });
