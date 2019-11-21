@@ -43,4 +43,26 @@ const schema = new mongoose.Schema({
     modified: Date,
 });
 
-export const classes = mongoose.model('classes', schema);
+schema.index(
+    {
+        title: 'text',
+        description: 'text',
+    },
+    {
+        name: 'titleDescription',
+    }
+);
+schema.index(
+    {
+        order: 1,
+    },
+    {
+        name: 'order',
+    }
+);
+
+const classes = mongoose.model('classes', schema);
+
+classes.createIndexes();
+
+export { classes };
