@@ -9,8 +9,11 @@ import { debugLogger } from './utils';
 import { getPassword } from './utils/env';
 //Routers
 import * as routers from './routers';
+
 import { errorLogger, notFoundLogger, validationLogger } from './utils/errorLoggers';
 import { NotFoundError } from './utils/errors';
+
+import './db';
 
 const app = express();
 
