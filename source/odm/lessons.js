@@ -6,35 +6,41 @@ const contentSchema = new mongoose.Schema({
     uri: String,
 });
 
-const schema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    description: {
-        type: String,
-        required: true,
-    },
-    order: {
-        type: Number,
-        required: true,
-    },
-    hash: {
-        type: String,
-    },
-    availability: [
-        {
+const schema = new mongoose.Schema(
+    {
+        title: {
             type: String,
-            enum: ['select', 'premium'],
+            required: true,
         },
-    ],
-    content: {
-        videos: [contentSchema],
-        keynotes: [contentSchema],
+        description: {
+            type: String,
+            required: true,
+        },
+        order: {
+            type: Number,
+            required: true,
+        },
+        hash: {
+            type: String,
+        },
+        availability: [
+            {
+                type: String,
+                enum: ['select', 'premium'],
+            },
+        ],
+        content: {
+            videos: [contentSchema],
+            keynotes: [contentSchema],
+        },
     },
-    created: Date,
-    modified: Date,
-});
+    {
+        timestamps: {
+            createdAt: 'created',
+            updatedAt: 'modified',
+        },
+    }
+);
 
 schema.index(
     {

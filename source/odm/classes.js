@@ -12,36 +12,42 @@ const studentSchema = new mongoose.Schema({
     notes: String,
 });
 
-const schema = new mongoose.Schema({
-    title: String,
-    description: String,
-    hash: {
-        type: String,
-    },
-    students: [studentSchema],
-    lessons: [
-        {
-            lesson: {
-                type: mongoose.SchemaTypes.ObjectId,
-                ref: lessons,
+const schema = new mongoose.Schema(
+    {
+        title: String,
+        description: String,
+        hash: {
+            type: String,
+        },
+        students: [studentSchema],
+        lessons: [
+            {
+                lesson: {
+                    type: mongoose.SchemaTypes.ObjectId,
+                    ref: lessons,
+                },
+                scheduled: Date,
             },
-            scheduled: Date,
+        ],
+        duration: {
+            started: {
+                type: Date,
+                required: true,
+            },
+            closed: {
+                type: Date,
+                required: true,
+            },
         },
-    ],
-    duration: {
-        started: {
-            type: Date,
-            required: true,
-        },
-        closed: {
-            type: Date,
-            required: true,
-        },
+        order: Number,
     },
-    order: Number,
-    created: Date,
-    modified: Date,
-});
+    {
+        timestamps: {
+            createdAt: 'created',
+            updatedAt: 'modified',
+        },
+    }
+);
 
 schema.index(
     {
