@@ -10,4 +10,10 @@ export class UserModel {
 
         return data;
     }
+
+    async getAll() {
+        const data = await users.find({}).lean();
+
+        return { data };
+    }
 }

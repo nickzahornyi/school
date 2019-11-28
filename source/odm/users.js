@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import v4 from 'uuid/v4';
 
 const schema = new mongoose.Schema(
     {
@@ -55,6 +56,8 @@ const schema = new mongoose.Schema(
         notes: String,
         hash: {
             type: String,
+            required: true,
+            default: () => v4(),
         },
         disabled: Boolean,
     },

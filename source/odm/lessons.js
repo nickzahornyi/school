@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import v4 from 'uuid/v4';
 
 const contentSchema = new mongoose.Schema({
     title: String,
@@ -22,6 +23,8 @@ const schema = new mongoose.Schema(
         },
         hash: {
             type: String,
+            required: true,
+            default: () => v4(),
         },
         availability: [
             {

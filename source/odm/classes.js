@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import v4 from 'uuid/v4';
 
 import { users, lessons } from './';
 
@@ -18,6 +19,8 @@ const schema = new mongoose.Schema(
         description: String,
         hash: {
             type: String,
+            required: true,
+            default: () => v4(),
         },
         students: [studentSchema],
         lessons: [

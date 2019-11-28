@@ -12,4 +12,10 @@ export class ClassesController {
 
         return data;
     }
+
+    async getAll() {
+        const data = await this.models.classes.getAll();
+
+        return data;
+    }
 }

@@ -10,4 +10,10 @@ export class LessonsModel {
 
         return data;
     }
+
+    async getAll() {
+        const data = await lessons.find({}).lean();
+
+        return { data };
+    }
 }

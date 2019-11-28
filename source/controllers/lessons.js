@@ -12,4 +12,10 @@ export class LessonsController {
 
         return data;
     }
+
+    async getAll() {
+        const data = await this.models.lessons.getAll();
+
+        return data;
+    }
 }
