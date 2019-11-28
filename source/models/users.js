@@ -16,4 +16,25 @@ export class UserModel {
 
         return { data };
     }
+
+    async getByHash() {
+        const { hash } = this.data;
+        const data = await users.findOne({ hash }).lean();
+
+        return data;
+    }
+
+    async updateByHash() {
+        const { hash, payload } = this.data;
+        const data = await users.findOneAndUpdate({ hash }, payload);
+
+        return data;
+    }
+
+    async removeByHash() {
+        const { hash } = this.data;
+        const data = await users.findOneAndDelete({ hash });
+
+        return data;
+    }
 }

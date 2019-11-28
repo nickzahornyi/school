@@ -1,21 +1,35 @@
-export const getByHash = (req, res) => {
+import { UsersController } from '../../../controllers';
+
+export const getByHash = async (req, res) => {
     try {
-        res.status(200).json({ data: {} });
+        const { userHash } = req.params;
+        const model = new UsersController({ hash: userHash });
+        const data = await model.getByHash();
+
+        res.status(200).json({ data });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
 
-export const updateByHash = (req, res) => {
+export const updateByHash = async (req, res) => {
     try {
-        res.status(200).json({ data: {} });
+        const { userHash } = req.params;
+        const model = new UsersController({ hash: userHash, payload: req.body });
+        const data = await model.updateByHash();
+
+        res.status(200).json({ data });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
 
-export const deleteByHash = (req, res) => {
+export const deleteByHash = async (req, res) => {
     try {
+        const { userHash } = req.params;
+        const model = new UsersController({ hash: userHash });
+
+        await model.removeByHash();
         res.sendStatus(204);
     } catch (error) {
         res.status(400).json({ message: error.message });
