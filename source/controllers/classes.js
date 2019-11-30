@@ -36,4 +36,16 @@ export class ClassesController {
 
         return data;
     }
+
+    async enroll() {
+        const data = await this.models.classes.enroll();
+
+        return data;
+    }
+
+    async expel() {
+        const data = await this.models.classes.expel();
+
+        return data;
+    }
 }
