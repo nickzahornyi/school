@@ -1,7 +1,7 @@
 import { classes, users } from '../odm';
-import { NotFoundError } from '../utils';
+import { validatePaginationObj, NotFoundError } from '../utils';
 
-export class ClassesModel {
+export class Classes {
     constructor(data) {
         this.data = data;
     }
@@ -13,28 +13,72 @@ export class ClassesModel {
     }
 
     async getAll() {
-        const data = await classes.find({}).lean();
+        const { page: oPage, size: oSize } = this.data;
 
-        return { data };
+        const { page, size } = validatePaginationObj({
+            page: oPage,
+            size: oSize,
+        });
+        const total = await classes.countDocuments();
+        const offset = (page - 1) * size;
+
+        const data = await classes
+            .find({})
+            .sort('-created')
+            .skip(offset)
+            .limit(size)
+            .select('-__v -id')
+            .populate('lessons.lesson', '-_id -__v')
+            .populate('students.user', '-_id -__v')
+            .lean();
+
+        return {
+            data,
+            meta: {
+                total,
+                page,
+                size,
+            },
+        };
     }
 
     async getByHash() {
         const { hash } = this.data;
-        const data = await classes.findOne({ hash }).lean();
+
+        const data = await classes
+            .findOne({ hash })
+            .select('-__v -id')
+            .populate('lessons.lesson', '-_id -__v')
+            .populate('students.user', '-_id -__v')
+            .lean();
+
+        if (!data) {
+            throw new NotFoundError(`can not find document with hash ${hash}`);
+        }
 
         return data;
     }
 
     async updateByHash() {
         const { hash, payload } = this.data;
+
         const data = await classes.findOneAndUpdate({ hash }, payload);
+
+        if (!data) {
+            throw new NotFoundError(`can not find document with hash ${hash}`);
+        }
 
         return data;
     }
 
     async removeByHash() {
         const { hash } = this.data;
+
         const data = await classes.findOneAndDelete({ hash });
+
+        if (!data) {
+            throw new NotFoundError(`can not find document with hash ${hash}`);
+        }
 
         return data;
     }

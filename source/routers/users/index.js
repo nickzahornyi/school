@@ -2,10 +2,11 @@ import { UsersController } from '../../controllers';
 
 export const get = async (req, res) => {
     try {
-        const model = new UsersController();
+        const { page, size } = req.query;
+        const model = new UsersController({ page, size });
         const data = await model.getAll();
 
-        res.status(200).json({ data });
+        res.status(200).json({ ...data });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

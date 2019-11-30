@@ -2,10 +2,11 @@ import { ClassesController } from '../../controllers';
 
 export const get = async (req, res) => {
     try {
-        const model = new ClassesController();
+        const { page, size } = req.query;
+        const model = new ClassesController({ page, size });
         const data = await model.getAll();
 
-        res.status(200).json({ data });
+        res.status(200).json({ ...data });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
