@@ -7,6 +7,14 @@ const studentSchema = new mongoose.Schema({
     user: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: users,
+        validate: [
+            async function(value) {
+                const data = await users.findOne({ _id: value });
+
+                return !!data;
+            },
+            'User with such id - {VALUE} was not found in users collection',
+        ],
     },
     status: String,
     expelled: Boolean,
@@ -37,6 +45,14 @@ const schema = new mongoose.Schema(
                 lesson: {
                     type: mongoose.SchemaTypes.ObjectId,
                     ref: lessons,
+                    validate: [
+                        async function(value) {
+                            const data = await lessons.findOne({ _id: value });
+
+                            return !!data;
+                        },
+                        'Lesson with such id - {VALUE} was not found in lessons collection',
+                    ],
                 },
                 scheduled: Date,
             },
