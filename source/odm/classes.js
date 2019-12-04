@@ -10,13 +10,22 @@ const studentSchema = new mongoose.Schema({
     },
     status: String,
     expelled: Boolean,
-    notes: String,
+    notes: {
+        type: String,
+        maxlength: 250,
+    },
 });
 
 const schema = new mongoose.Schema(
     {
-        title: String,
-        description: String,
+        title: {
+            type: String,
+            maxlength: 30,
+        },
+        description: {
+            type: String,
+            maxlength: 250,
+        },
         hash: {
             type: String,
             required: true,
@@ -40,9 +49,18 @@ const schema = new mongoose.Schema(
             closed: {
                 type: Date,
                 required: true,
+                validate: [
+                    function(value) {
+                        return this.duration.started < value;
+                    },
+                    'Started date must be less than closed date',
+                ],
             },
         },
-        order: Number,
+        order: {
+            type: Number,
+            min: 0,
+        },
     },
     {
         timestamps: {
