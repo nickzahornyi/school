@@ -7,10 +7,14 @@ const schema = new mongoose.Schema(
             first: {
                 type: String,
                 required: true,
+                minlength: 2,
+                maxlength: 15,
             },
             last: {
                 type: String,
                 required: true,
+                minlength: 2,
+                maxlength: 15,
             },
         },
         phones: [
@@ -27,6 +31,7 @@ const schema = new mongoose.Schema(
                 email: {
                     type: String,
                     required: true,
+                    match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
                 },
                 primary: Boolean,
             },
@@ -48,12 +53,27 @@ const schema = new mongoose.Schema(
             },
         ],
         socials: {
-            facebook: String,
-            linkedin: String,
-            github: String,
-            skype: String,
+            facebook: {
+                type: String,
+                match: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
+            },
+            linkedin: {
+                type: String,
+                match: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
+            },
+            github: {
+                type: String,
+                match: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
+            },
+            skype: {
+                type: String,
+                match: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
+            },
         },
-        notes: String,
+        notes: {
+            type: String,
+            maxlength: 250,
+        },
         hash: {
             type: String,
             required: true,
