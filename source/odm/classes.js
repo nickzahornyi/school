@@ -11,7 +11,7 @@ const studentSchema = new mongoose.Schema({
             async function(value) {
                 const data = await users.findOne({ _id: value });
 
-                return !!data;
+                return Boolean(data);
             },
             'User with such id - {VALUE} was not found in users collection',
         ],
@@ -49,7 +49,7 @@ const schema = new mongoose.Schema(
                         async function(value) {
                             const data = await lessons.findOne({ _id: value });
 
-                            return !!data;
+                            return Boolean(data);
                         },
                         'Lesson with such id - {VALUE} was not found in lessons collection',
                     ],
